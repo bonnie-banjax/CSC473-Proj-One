@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Variant Selection</title>
+    <style>
+        /* CSS Variables to make the toggle styling work cleanly */
+        :root {
+            --accent-primary: #00ffff; /* Default Cyber Teal */
+            --border-radius-card: 4px;
+        }
+
+        /* Reset and center container */
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #000000;
+            height: 100vh;
+            display: flex;
+            flex-direction: column; /* Stack toggle above buttons */
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Switch background to a dark slate when Corporate is active */
+        body.theme-corporate {
+            background-color: #1a1a1a;
+        }
+
+        /* Flexbox for the two buttons */
+        .btn-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Core Button Styling (Upsized) */
+        .btn {
+            display: inline-block;
+            padding: 20px 40px; /* Bigger padding */
+            font-size: 18px;      /* Bigger font */
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        /* ==========================================================================
+           BUTTON ID THEMES (Cyber vs Corp)
+           ========================================================================== */
+
+/* ==========================================================================
+   DYNAMIC BUTTON THEMES (Swaps with Toggle)
+   ========================================================================== */
+
+/* CYBER MODE ACTIVE */
+body.theme-cyberpunk #cyber {
+    background-color: #00ffff;
+    color: #ff007f;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    border: 2px solid #00ffff;
+}
+body.theme-cyberpunk #cyber:hover {
+    background-color: #ff007f;
+    color: #00ffff;
+    box-shadow: 0 0 20px #ff007f;
+    border-color: #ff007f;
+}
+
+body.theme-cyberpunk #corp {
+    background-color: #c99738;
+    color: #333333;
+    border: 2px solid #c99738;
+}
+body.theme-cyberpunk #corp:hover {
+    background-color: #a67c2e;
+    border-color: #a67c2e;
+}
+
+/* CORP MODE ACTIVE (STYLING IS SWAPPED) */
+body.theme-corporate #cyber {
+    background-color: #c99738;
+    color: #333333;
+    border: 2px solid #c99738;
+    box-shadow: none;
+}
+body.theme-corporate #cyber:hover {
+    background-color: #a67c2e;
+    border-color: #a67c2e;
+}
+
+body.theme-corporate #corp {
+    background-color: #00ffff;
+    color: #ff007f;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+body.theme-corporate #corp:hover {
+    background-color: #ff007f;
+    color: #00ffff;
+    box-shadow: 0 0 20px #ff007f;
+    border-color: #ff007f;
+}
+
+        /* Active click squeeze effect */
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        /* ==========================================================================
+           12. CORPOFLAGUE (STYLE CHANGER)
+           ========================================================================== */
+
+        /* Toggle Container Styling */
+        .theme-switch-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px;
+          z-index: 2000;
+        }
+
+        .theme-label {
+          font-size: 0.75rem;
+          font-weight: bold;
+          letter-spacing: 1px;
+        }
+
+        /* Switches label color based on which theme is active */
+        body.theme-cyberpunk .label-cyber { color: var(--accent-primary); text-shadow: 0 0 5px var(--accent-primary); }
+        body.theme-cyberpunk .label-corp { color: #444; }
+        body.theme-corporate .label-cyber { color: #888; }
+        body.theme-corporate .label-corp { color: #c99738; text-shadow: 0 0 5px #c99738; }
+
+        /* The actual switch geometry */
+        .theme-switch {
+          display: inline-block;
+          height: 24px;
+          position: relative;
+          width: 50px;
+        }
+
+        .theme-switch input {
+          display: none;
+        }
+
+        /* Slider track */
+        .slider-toggle {
+          background-color: #1a1a24;
+          border: 1px solid var(--accent-primary);
+          bottom: 0;
+          cursor: pointer;
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+          transition: 0.4s;
+        }
+
+        /* Slider knob */
+        .slider-toggle:before {
+          background-color: var(--accent-primary);
+          bottom: 3px;
+          content: "";
+          height: 16px;
+          left: 4px;
+          position: absolute;
+          transition: 0.4s;
+          width: 16px;
+        }
+
+        /* Round shape modifier */
+        .slider-toggle.round {
+          border-radius: var(--border-radius-card, 0px);
+        }
+        .slider-toggle.round:before {
+          border-radius: var(--border-radius-card, 0px);
+        }
+
+        /* Checked / Corporate State adjustments */
+        input:checked + .slider-toggle {
+          background-color: #fff;
+          border-color: #c99738;
+        }
+
+        input:checked + .slider-toggle:before {
+          transform: translateX(24px);
+          background-color: #c99738;
+        }
+    </style>
+</head>
+<body class="theme-cyberpunk">
+
+    <div class="theme-switch-wrapper">
+      <span class="theme-label label-cyber">CYBER</span>
+      <label class="theme-switch" for="checkbox">
+        <input type="checkbox" id="checkbox" />
+        <div class="slider-toggle round"></div>
+      </label>
+      <span class="theme-label label-corp">CORP</span>
+    </div>
+
+    <div class="btn-container">
+        <a href="templating/cyber-critique.html" class="btn" id="cyber">Cyber Mode</a>
+        <a href="templating/mono-culture.html" class="btn" id="corp">Corp Mode</a>
+    </div>
+
+    <script>
+        const checkbox = document.getElementById('checkbox');
+
+        checkbox.addEventListener('change', () => {
+            if(checkbox.checked) {
+                document.body.classList.remove('theme-cyberpunk');
+                document.body.classList.add('theme-corporate');
+            } else {
+                document.body.classList.remove('theme-corporate');
+                document.body.classList.add('theme-cyberpunk');
+            }
+        });
+    </script>
+
+</body>
+</html>
