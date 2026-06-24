@@ -1,3 +1,4 @@
+
 // --- APP STATE ---
 let cart = [];
 let currentSlide = 0;

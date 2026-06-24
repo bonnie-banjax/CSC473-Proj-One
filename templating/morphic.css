@@ -338,7 +338,7 @@ body.theme-corporate .form-group label { text-transform: none; font-size: 1rem; 
   flex-direction: column;
 }
 body.theme-corporate .cart-sidebar { width: 400px; right: -400px; border-left: var(--border-sidebar); }
-.cart-sidebar.open { right: 0; }
+.cart-sidebar.open, body.theme-corporate .cart-sidebar.open { right: 0; }
 
 .cart-header { background: var(--bg-surface-alt); padding: 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
 body.theme-corporate .cart-header { background: #1a1a1a; color: #fff; padding: 20px; }
