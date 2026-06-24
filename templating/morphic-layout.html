@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ .Meta.PageTitle }}</title>
+  <link rel="stylesheet" href="morphic.css">
+</head>
+<body class="{{ .Meta.ThemeClass }}">
+
+  <header>
+    <div class="container">
+      <a href="#" class="logo">{{ .Nav.LogoText }}</a>
+      <nav id="nav-menu">
+        {{ range .Nav.Links }}
+          <a href="{{ .URL }}">{{ .Label }}</a>
+        {{ end }}
+      </nav>
+    </div>
+  </header>
+
+  <section id="home">
+    <h1>{{ .Hero.Title }}</h1>
+    <p>{{ .Hero.Subtitle }}</p>
+  </section>
+
+  <section id="about">
+    <h2>{{ .About.Title }}</h2>
+    <div class="about-content">
+      {{ if .About.AlertText }}<div class="glitch-alert">{{ .About.AlertText }}</div>{{ end }}
+      {{ range .About.Paragraphs }}
+        <p>{{ . }}</p>
+      {{ end }}
+    </div>
+  </section>
+
+</body>
+</html>

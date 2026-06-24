@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Monolith Bistro</title>
+  <style>
+    /* ==========================================================================
+       1. GLOBAL STYLES & VARIABLES
+       ========================================================================== */
+    :root {
+      --primary: #c99738;
+      --dark: #1a1a1a;
+      --light: #f9f9f9;
+      --text: #333;
+      --border: #ddd;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--light); color: var(--text); line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+    .section-title { text-align: center; margin-bottom: 40px; font-size: 2.5rem; color: var(--dark); }
+    .btn { background: var(--primary); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; font-weight: bold; transition: background 0.3s; }
+    .btn:hover { background: #b0822e; }
+
+    /* ==========================================================================
+       2. HEADER & NAVIGATION
+       ========================================================================== */
+    header { background: var(--dark); color: white; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    header .container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+    .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-decoration: none; }
+    nav { display: flex; align-items: center; gap: 20px; }
+    nav a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+    nav a:hover { color: var(--primary); }
+    .cart-trigger-btn { position: relative; background: none; border: 1px solid var(--primary); color: var(--primary); }
+    .cart-count { position: absolute; top: -8px; right: -8px; background: red; color: white; font-size: 0.75rem; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .hamburger { display: none; background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; }
+
+    /* ==========================================================================
+       3. HERO SECTION
+       ========================================================================== */
+    #home { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover; height: 60vh; display: flex; justify-content: center; align-items: center; text-align: center; color: white; }
+    #home h1 { font-size: 3.5rem; margin-bottom: 10px; color: var(--primary); text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+    #home p { font-size: 1.2rem; }
+
+    /* ==========================================================================
+       4. ABOUT SECTION
+       ========================================================================== */
+    #about .about-content { max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.1rem; }
+
+    /* ==========================================================================
+       5. MENU PAGE (CARDS)
+       ========================================================================== */
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .menu-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid var(--border); display: flex; flex-direction: column; }
+    .menu-img { height: 200px; width: 100%; object-fit: cover; }
+    .menu-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .menu-title-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+    .menu-price { color: var(--primary); font-weight: bold; font-size: 1.2rem; }
+    .menu-desc { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
+
+    /* ==========================================================================
+       6. IMAGE GALLERY SLIDER
+       ========================================================================== */
+    .slider-container { position: relative; max-width: 800px; margin: 0 auto; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+    .slider { display: flex; transition: transform 0.5s ease-in-out; }
+    .slide { min-width: 100%; height: 450px; object-fit: cover; }
+    .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 15px; cursor: pointer; font-size: 1.2rem; border-radius: 0 4px 4px 0; }
+    .slider-btn.next { right: 0; border-radius: 4px 0 0 4px; }
+    .slider-btn:hover { background: rgba(0,0,0,0.8); }
+
+    /* ==========================================================================
+       7. CONTACT PAGE & GOOGLE MAPS
+       ========================================================================== */
+    .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-form { background: white; padding: 30px; border-radius: 8px; border: 1px solid var(--border); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+    .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; }
+    .map-container iframe { width: 100%; height: 100%; min-height: 350px; border: 0; border-radius: 8px; }
+
+    /* ==========================================================================
+       8. SHOPPING CART MODAL SIDEBAR
+       ========================================================================== */
+    .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.3); z-index: 2000; transition: right 0.3s ease; display: flex; flex-direction: column; }
+    .cart-sidebar.open { right: 0; }
+    .cart-header { background: var(--dark); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .cart-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+    .cart-items { flex-grow: 1; padding: 20px; overflow-y: auto; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .cart-item-info h4 { font-size: 1rem; }
+    .cart-item-info span { font-size: 0.85rem; color: #666; }
+    .remove-item-btn { background: none; border: none; color: #cc0000; cursor: pointer; font-size: 0.9rem; }
+    .cart-footer { padding: 20px; border-top: 1px solid var(--border); background: #f5f5f5; }
+    .cart-total-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
+    .cart-actions { display: flex; gap: 10px; }
+    .btn-clear { background: #666; width: 100%; }
+    .btn-clear:hover { background: #444; }
+
+    /* ==========================================================================
+       9. FOOTER SECTION
+       ========================================================================== */
+    footer { background: var(--dark); color: white; padding: 40px 0; font-size: 0.9rem; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 20px; }
+    .footer-col h3 { color: var(--primary); margin-bottom: 15px; }
+    .social-links a { color: white; text-decoration: none; marginRight: 15px; font-size: 1.1rem; }
+    .social-links a:hover { color: var(--primary); }
+    .footer-bottom { text-align: center; border-top: 1px solid #333; padding-top: 20px; color: #888; }
+
+    /* ==========================================================================
+       10. MOBILE-FRIENDLY RESPONSIVE DESIGN (PART 2)
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      nav { display: none; position: absolute; top: 70px; left: 0; width: 100%; background: var(--dark); flex-direction: column; padding: 20px; gap: 15px; box-shadow: 0 4px 5px rgba(0,0,0,0.2); }
+      nav.active { display: flex; }
+      .contact-wrapper { grid-template-columns: 1fr; }
+      .cart-sidebar { width: 100%; right: -100%; }
+      .slide { height: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <a href="#home" class="logo">The Monolith Bistro</a>
+      <button class="hamburger" id="hamburger-btn">☰</button>
+      <nav id="nav-menu">
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <button class="btn cart-trigger-btn" id="open-cart-btn">
+          🛒 Cart <span class="cart-count" id="cart-indicator">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <section id="home">
+    <div>
+      <h1>The Monolith Bistro</h1>
+      <p>Exquisite Dining Rendered in a Single Architecture</p>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">Our Story</h2>
+      <div class="about-content">
+        <p>Founded in 2026, The Monolith Bistro was born out of a desire to simplify gastronomy while maximizing depth. We believe that great meals—much like great applications—don't require dozens of disconnected configurations. By sourcing every ingredient directly from local micro-farms and treating our kitchen as a single ecosystem, we create a unified culinary masterpiece on every single plate.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="container">
+      <h2 class="section-title">Our Menu</h2>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <img class="menu-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80" alt="Truffle Burger">
+          <div class="menu-info">
+            <div class="menu-title-row">
+              <h3>Truffle Burger</h3>
+              <span class="menu-price">$18.00</span>
+            </div>
+            <p class="menu-desc">Prime wagyu beef patty topped with white truffle aioli, aged gruyère, and wild arugula on a brioche bun.</p>
+            <button class="btn add-to-cart-btn" data-id="1" data-name="Truffle Burger" data-price="18.00">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-img" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80" alt="Artisanal Pizza">
+          <div class="menu-info">
+            <div class="menu-title-row">
+              <h3>Artisanal Pizza</h3>
+              <span class="menu-price">$16.50</span>
+            </div>
+            <p class="menu-desc">Hand-tossed sourdough crust with house-made san marzano tomato sauce, fresh buffalo mozzarella, and basil.</p>
+            <button class="btn add-to-cart-btn" data-id="2" data-name="Artisanal Pizza" data-price="16.50">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <img class="menu-img" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80" alt="Harvest Salmon Bowl">
+          <div class="menu-info">
+            <div class="menu-title-row">
+              <h3>Harvest Salmon Bowl</h3>
+              <span class="menu-price">$21.00</span>
+            </div>
+            <p class="menu-desc">Pan-seared Atlantic salmon over wild rice, roasted sweet potatoes, avocado, and a citrus-ginger drizzle.</p>
+            <button class="btn add-to-cart-btn" data-id="3" data-name="Harvest Salmon Bowl" data-price="21.00">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="container">
+      <h2 class="section-title">Gallery</h2>
+      <div class="slider-container">
+        <div class="slider" id="image-slider">
+          <img class="slide" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Steak">
+          <img class="slide" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="Kitchen Prep">
+          <img class="slide" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80" alt="Plated Fine Dining">
+          <img class="slide" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" alt="Drinks/Bar">
+          <img class="slide" src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80" alt="Dining Room">
+          <img class="slide" src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Ribs Grid">
+        </div>
+        <button class="slider-btn prev" id="slider-prev-btn">❮</button>
+        <button class="slider-btn next" id="slider-next-btn">❯</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact Us</h2>
+      <div class="contact-wrapper">
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!'); this.reset();">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.6175392743824!2d-73.9878531242371!3d40.74844447138905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1710000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3>Your Order</h3>
+      <button class="cart-close" id="close-cart-btn">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items-container">
+      </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <span id="cart-total-price">$0.00</span>
+      </div>
+      <div class="cart-actions">
+        <button class="btn btn-clear" id="clear-cart-btn">Clear Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>Monolith Bistro</h3>
+          <p>Crafting stateful culinary experiences packed inside pristine architecture.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Hours of Operation</h3>
+          <p>Monday - Thursday: 4:00 PM - 10:00 PM</p>
+          <p>Friday - Sunday: 12:00 PM - 11:00 PM</p>
+        </div>
+        <div class="footer-col">
+          <h3>Follow Us</h3>
+          <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">X / Twitter</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Monolith Bistro. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- APP STATE ---
+    let cart = [];
+    let currentSlide = 0;
+
+    // --- DOM ELEMENT SELECTORS ---
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navMenu = document.getElementById('nav-menu');
+    const slider = document.getElementById('image-slider');
+    const totalSlides = document.querySelectorAll('.slide').length;
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+    const cartIndicator = document.getElementById('cart-indicator');
+
+    // ==========================================
+    // MODULE 1: RESPONSIVE INTERFACES & MENUS
+    // ==========================================
+    hamburgerBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+
+    // Automatically collapse mobile menu when clicking a link
+    document.querySelectorAll('#nav-menu a').forEach(link => {
+      link.addEventListener('click', () => navMenu.classList.remove('active'));
+    });
+
+    // ==========================================
+    // MODULE 2: IMAGE SLIDER COMPONENT
+    // ==========================================
+    function updateSliderPosition() {
+      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    document.getElementById('slider-next-btn').addEventListener('click', () => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSliderPosition();
+    });
+
+    document.getElementById('slider-prev-btn').addEventListener('click', () => {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSliderPosition();
+    });
+
+    // ==========================================
+    // MODULE 3: STATEFUL SHOPPING CART CONTROLLER
+    // ==========================================
+
+    // Toggle View State Links
+    document.getElementById('open-cart-btn').addEventListener('click', () => cartSidebar.classList.add('open'));
+    document.getElementById('close-cart-btn').addEventListener('click', () => cartSidebar.classList.remove('open'));
+
+    // Hook Up "Add To Cart" DOM Buttons
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const id = e.target.getAttribute('data-id');
+        const name = e.target.getAttribute('data-name');
+        const price = parseFloat(e.target.getAttribute('data-price'));
+        addToCart(id, name, price);
+      });
+    });
+
+    // State Mutation: Add Item
+    function addToCart(id, name, price) {
+      const existingItem = cart.find(item => item.id === id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ id, name, price, quantity: 1 });
+      }
+      renderCart();
+    }
+
+    // State Mutation: Remove Item
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      renderCart();
+    }
+
+    // State Mutation: Reset / Clear Cart
+    document.getElementById('clear-cart-btn').addEventListener('click', () => {
+      cart = [];
+      renderCart();
+    });
+
+    // Render Function: Maps Array State directly onto dynamic HTML DOM components
+    function renderCart() {
+      cartItemsContainer.innerHTML = '';
+      let total = 0;
+      let totalItemsCount = 0;
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p style="text-align:center; color:#888; margin-top:20px;">Your cart is empty.</p>';
+      } else {
+        cart.forEach(item => {
+          total += item.price * item.quantity;
+          totalItemsCount += item.quantity;
+
+          const itemElement = document.createElement('div');
+          itemElement.classList.add('cart-item');
+          itemElement.innerHTML = `
+            <div class="cart-item-info">
+              <h4>${item.name}</h4>
+              <span>$${item.price.toFixed(2)} x ${item.quantity}</span>
+            </div>
+            <button class="remove-item-btn" onclick="removeFromCart('${item.id}')">Remove</button>
+          `;
+          cartItemsContainer.appendChild(itemElement);
+        });
+      }
+
+      // Sync computed values with visual indicators
+      cartTotalPrice.textContent = `$${total.toFixed(2)}`;
+      cartIndicator.textContent = totalItemsCount;
+    }
+  </script>
+</body>
+</html>

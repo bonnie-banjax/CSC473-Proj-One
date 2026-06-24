@@ -1,0 +1,485 @@
+/* ==========================================================================
+   1. MORPHIC VARIABLE MATRIX & GLOBAL RESET
+   ========================================================================== */
+:root, body.theme-cyberpunk {
+  /* Color Palette */
+  --bg-main: #0a0a0c;
+  --bg-surface: #1a1a24;
+  --bg-surface-alt: #11111a;
+  --text-main: #8b8b9f;
+  --text-highlight: #ffffff;
+  --accent-primary: #00f3ff;   /* Neon Cyan */
+  --accent-secondary: #ff0055; /* Neon Pink */
+  --accent-tertiary: #39ff14;  /* Matrix Green */
+  --border-color: #1a1a24;
+  --border-card: #2a2a3a;
+
+  /* Typography & Structural Styles */
+  --font-global: 'Courier New', Courier, monospace;
+  --line-height: 1.4;
+  --border-radius: 0px;
+  --section-padding: 80px 0;
+  --header-height: 80px;
+
+  /* Effects & Filters */
+  --header-fx: rgba(10, 10, 12, 0.9);
+  --header-blur: blur(10px);
+  --border-header: 2px solid var(--accent-secondary);
+  --shadow-title: 0 0 10px var(--accent-secondary);
+  --shadow-btn: 0 0 5px var(--accent-primary);
+  --shadow-btn-hover: 0 0 15px var(--accent-primary);
+  --shadow-sidebar: none;
+  --border-sidebar: var(--border-color);
+  --cart-border-left: 2px solid var(--accent-tertiary);
+  --img-filter: grayscale(40%) contrast(120%);
+  --slide-filter: saturate(150%) hue-rotate(300deg);
+  --map-filter: invert(90%) hue-rotate(180deg);
+  --hero-bg: linear-gradient(rgba(10,10,12,0.85), rgba(10,10,12,0.85)), url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80');
+  --hero-height: 70vh;
+  --hero-title-size: 3rem;
+  --hero-title-shadow: 0 0 20px var(--accent-primary), 0 0 40px var(--accent-primary);
+}
+
+body.theme-corporate {
+  /* Color Palette */
+  --bg-main: #f9f9f9;
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #f5f5f5;
+  --text-main: #333333;
+  --text-highlight: #1a1a1a;
+  --accent-primary: #c99738;   /* Corporate Gold */
+  --accent-secondary: #b0822e; /* Darker Gold */
+  --accent-tertiary: #cc0000;  /* Notice/Remove Red */
+  --border-color: #dddddd;
+  --border-card: #dddddd;
+
+  /* Typography & Structural Styles */
+  --font-global: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --line-height: 1.6;
+  --border-radius: 4px;
+  --border-radius-card: 8px;
+  --section-padding: 60px 0;
+  --header-height: 70px;
+
+  /* Effects & Filters */
+  --header-fx: #1a1a1a;
+  --header-blur: none;
+  --border-header: none;
+  --shadow-title: none;
+  --shadow-btn: none;
+  --shadow-btn-hover: none;
+  --shadow-sidebar: -5px 0 15px rgba(0,0,0,0.3);
+  --border-sidebar: 1px solid var(--border-color);
+  --cart-border-left: none;
+  --img-filter: none;
+  --slide-filter: none;
+  --map-filter: none;
+  --hero-bg: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80');
+  --hero-height: 60vh;
+  --hero-title-size: 3.5rem;
+  --hero-title-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+
+/* Master Transition Mechanism */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-global);
+/*  transition: background 0.4s ease,
+              background-color 0.4s ease,
+              color 0.4s ease,
+              border 0.4s ease,
+              border-color 0.4s ease,
+              border-radius 0.4s ease,
+              box-shadow 0.4s ease,
+              filter 0.4s ease,
+              height 0.4s ease,
+              padding 0.4s ease;*/
+  transition: background 0.8s ease,
+              background-color 0.6s ease,
+              color 2.75s ease,
+              border 1.8s ease,
+              border-color 1.4s ease,
+              border-radius 1.2s ease,
+              box-shadow 0.4s ease,
+              filter 0.9s ease,
+              height 0.7s ease,
+              padding 0.8s ease;
+
+
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: var(--line-height);
+  overflow-x: hidden;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* ==========================================================================
+   2. CORE UI COMPONENTS (BUTTONS & STRUCTURAL BLOCKS)
+   ========================================================================== */
+section {
+  padding: var(--section-padding);
+  border-bottom: 1px dashed var(--border-color);
+  position: relative;
+}
+body.theme-corporate section { border-bottom-style: solid; }
+
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: var(--hero-title-size);
+  color: var(--text-highlight);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: var(--shadow-title);
+}
+body.theme-corporate .section-title { text-transform: none; letter-spacing: normal; font-size: 2.5rem; }
+
+.btn {
+  background: none;
+  border: 1px solid var(--accent-primary);
+  color: var(--accent-primary);
+  padding: 12px 20px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  box-shadow: var(--shadow-btn);
+  border-radius: var(--border-radius);
+}
+body.theme-corporate .btn {
+  background: var(--accent-primary);
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  text-transform: none;
+}
+.btn:hover {
+  background: var(--accent-primary);
+  color: var(--bg-main);
+  box-shadow: var(--shadow-btn-hover);
+}
+body.theme-corporate .btn:hover { background: var(--accent-secondary); color: #fff; }
+
+/* ==========================================================================
+   3. HEADERS & NAVIGATION FRAMEWORK
+   ========================================================================== */
+header {
+  background: var(--header-fx);
+  backdrop-filter: var(--header-blur);
+  border-bottom: var(--border-header);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+body.theme-corporate header { box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: #fff; }
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-height);
+}
+
+.logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px var(--accent-primary);
+}
+body.theme-corporate .logo { color: var(--accent-primary); text-shadow: none; font-size: 1.5rem; }
+
+nav { display: flex; align-items: center; gap: 25px; }
+nav a {
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+body.theme-corporate nav a { color: #fff; text-transform: none; font-weight: 500; font-size: 1rem; }
+nav a:hover { color: var(--accent-secondary); text-shadow: var(--shadow-title); }
+body.theme-corporate nav a:hover { color: var(--accent-primary); text-shadow: none; }
+
+.cart-trigger-btn { position: relative; border-color: var(--accent-secondary); color: var(--accent-secondary); box-shadow: var(--shadow-title); }
+body.theme-corporate .cart-trigger-btn { background: none; border: 1px solid var(--accent-primary); color: var(--accent-primary); box-shadow: none; }
+.cart-trigger-btn:hover { background: var(--accent-secondary); color: #fff; box-shadow: var(--shadow-btn-hover); }
+
+.cart-count {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: var(--accent-tertiary);
+  color: #000;
+  font-size: 0.75rem;
+  width: 20px;
+  height: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+}
+body.theme-corporate .cart-count { color: #fff; border-radius: 50%; width: 18px; height: 18px; top: -8px; right: -8px; }
+.hamburger { display: none; background: none; border: none; color: var(--accent-primary); font-size: 2rem; cursor: pointer; }
+body.theme-corporate .hamburger { color: #fff; font-size: 1.8rem; }
+
+/* ==========================================================================
+   4. HERO GRID
+   ========================================================================== */
+#home {
+  background: var(--hero-bg) no-repeat center center/cover;
+  height: var(--hero-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-bottom: 2px solid var(--accent-primary);
+}
+body.theme-corporate #home { border-bottom: none; color: #fff; }
+#home h1 { font-size: var(--hero-title-size); margin-bottom: 15px; color: #fff; letter-spacing: 5px; text-shadow: var(--hero-title-shadow); }
+body.theme-corporate #home h1 { color: var(--accent-primary); letter-spacing: normal; margin-bottom: 10px; }
+#home p { font-size: 1rem; color: var(--accent-tertiary); text-transform: uppercase; }
+body.theme-corporate #home p { color: #fff; text-transform: none; font-size: 1.2rem; }
+
+/* ==========================================================================
+   5. ABOUT SECTION
+   ========================================================================== */
+#about .about-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  padding: 40px;
+  background: rgba(26,26,36,0.5);
+}
+body.theme-corporate #about .about-content { border: none; background: none; font-size: 1.1rem; }
+#about .glitch-alert { color: var(--accent-secondary); font-size: 0.8rem; margin-bottom: 10px; text-transform: uppercase; }
+body.theme-corporate #about .glitch-alert { display: none; }
+
+/* ==========================================================================
+   6. PRODUCT / MENU CARDS
+   ========================================================================== */
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+body.theme-corporate .menu-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+.menu-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius-card, var(--border-radius));
+}
+body.theme-corporate .menu-card { box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.menu-card:hover { border-color: var(--accent-primary); transform: translateY(-2px); }
+
+.menu-img { height: 180px; width: 100%; object-fit: cover; filter: var(--img-filter); }
+body.theme-corporate .menu-img { height: 200px; }
+
+.menu-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+body.theme-corporate .menu-info { padding: 20px; }
+.menu-title-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; }
+.menu-title-row h3 { color: var(--text-highlight); font-size: 1.1rem; }
+.menu-price { color: var(--accent-tertiary); font-weight: bold; }
+body.theme-corporate .menu-price { color: var(--accent-primary); font-size: 1.2rem; }
+.menu-desc { font-size: 0.85rem; margin-bottom: 20px; color: var(--text-main); }
+body.theme-corporate .menu-desc { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
+
+/* ==========================================================================
+   7. SLIDER / COMPONENT CONTROLS
+   ========================================================================== */
+.slider-container { position: relative; max-width: 800px; margin: 0 auto; overflow: hidden; border: 2px solid var(--border-color); border-radius: var(--border-radius-card, var(--border-radius)); }
+body.theme-corporate .slider-container { border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+.slider { display: flex; transition: transform 0.4s cubic-bezier(0.1, 0.8, 0.25, 1); }
+body.theme-corporate .slider { transition: transform 0.5s ease-in-out; }
+.slide { min-width: 100%; height: 400px; object-fit: cover; filter: var(--slide-filter); }
+body.theme-corporate .slide { height: 450px; }
+
+.slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.8); color: var(--accent-primary); border: 1px solid var(--accent-primary); padding: 15px; cursor: pointer; font-size: 1.2rem; }
+body.theme-corporate .slider-btn { background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 0 4px 4px 0; }
+.slider-btn.next { right: 0; }
+body.theme-corporate .slider-btn.next { border-radius: 4px 0 0 4px; }
+.slider-btn:hover { background: var(--accent-primary); color: var(--bg-main); }
+body.theme-corporate .slider-btn:hover { background: rgba(0,0,0,0.8); color: #fff; }
+
+/* ==========================================================================
+   8. FORMS & DATA RECONNAISSANCE
+   ========================================================================== */
+.contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.contact-form { background: var(--bg-surface); padding: 30px; border: 1px solid var(--accent-secondary); box-shadow: 0 0 10px rgba(255,0,85,0.1); border-radius: var(--border-radius-card, var(--border-radius)); }
+body.theme-corporate .contact-form { border: 1px solid var(--border-color); box-shadow: none; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-highlight); }
+body.theme-corporate .form-group label { text-transform: none; font-size: 1rem; font-weight: bold; margin-bottom: 5px; }
+.form-group input, .form-group textarea { width: 100%; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-highlight); border-radius: var(--border-radius); }
+.map-container iframe { width: 100%; height: 100%; min-height: 350px; border: 1px solid var(--border-color); filter: var(--map-filter); border-radius: var(--border-radius-card, var(--border-radius)); }
+
+/* ==========================================================================
+   9. MEMORY DEPOT (SHOPPING DRAWER)
+   ========================================================================== */
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: 420px;
+  height: 100%;
+  background: var(--bg-surface);
+  border-left: var(--cart-border-left);
+  box-shadow: var(--shadow-sidebar);
+  z-index: 2000;
+  transition: right 0.3s cubic-bezier(0.1, 0.8, 0.25, 1);
+  display: flex;
+  flex-direction: column;
+}
+body.theme-corporate .cart-sidebar { width: 400px; right: -400px; border-left: var(--border-sidebar); }
+.cart-sidebar.open { right: 0; }
+
+.cart-header { background: var(--bg-surface-alt); padding: 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+body.theme-corporate .cart-header { background: #1a1a1a; color: #fff; padding: 20px; }
+.cart-header h3 { color: var(--accent-tertiary); font-size: 1rem; letter-spacing: 2px; }
+body.theme-corporate .cart-header h3 { color: inherit; letter-spacing: normal; }
+
+.cart-close { background: none; border: none; color: var(--accent-secondary); font-size: 1.5rem; cursor: pointer; }
+body.theme-corporate .cart-close { color: #fff; }
+
+.cart-items { flex-grow: 1; padding: 25px; overflow-y: auto; }
+.cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--border-card); font-size: 0.85rem; }
+.cart-item-info h4 { color: var(--text-highlight); margin-bottom: 4px; }
+.cart-item-info span { color: var(--accent-tertiary); }
+body.theme-corporate .cart-item-info span { color: #666; }
+
+.remove-item-btn { background: none; border: 1px solid var(--accent-secondary); color: var(--accent-secondary); padding: 4px 8px; cursor: pointer; font-size: 0.75rem; }
+body.theme-corporate .remove-item-btn { border: none; color: var(--accent-tertiary); font-size: 0.9rem; }
+.remove-item-btn:hover { background: var(--accent-secondary); color: #fff; }
+
+.cart-footer { padding: 25px; border-top: 1px solid var(--border-color); background: var(--bg-surface-alt); }
+.cart-total-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: var(--text-highlight); }
+.btn-clear { border-color: var(--accent-secondary); color: var(--accent-secondary); width: 100%; box-shadow: var(--shadow-title); }
+body.theme-corporate .btn-clear { background: #666; color: #fff; border: none; }
+body.theme-corporate .btn-clear:hover { background: #444; }
+
+/* ==========================================================================
+   10. COMPLIANCE FOOTER
+   ========================================================================== */
+footer { background: var(--bg-surface-alt); padding: 50px 0; font-size: 0.8rem; border-top: 1px solid var(--border-color); }
+body.theme-corporate footer { background: #1a1a1a; color: #fff; padding: 40px 0; font-size: 0.9rem; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 30px; }
+.footer-col h3 { color: var(--text-highlight); margin-bottom: 15px; font-size: 0.9rem; letter-spacing: 1px; }
+body.theme-corporate .footer-col h3 { color: var(--accent-primary); letter-spacing: normal; }
+.social-links a { color: var(--accent-primary); text-decoration: none; margin-right: 20px; }
+body.theme-corporate .social-links a { color: #fff; margin-right: 15px; font-size: 1.1rem; }
+.social-links a:hover { color: var(--accent-secondary); }
+
+.footer-bottom { text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px; color: #444; }
+body.theme-corporate .footer-bottom { border-top-color: #333; color: #888; }
+
+/* ==========================================================================
+   11. ADAPTABILITY MATRIX (RESPONSIVENESS)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  nav {
+    display: none;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    background: var(--bg-main);
+    flex-direction: column;
+    padding: 30px;
+    gap: 20px;
+    border-bottom: var(--border-header);
+  }
+  body.theme-corporate nav { background: #1a1a1a; padding: 20px; gap: 15px; box-shadow: 0 4px 5px rgba(0,0,0,0.2); border-bottom: none;}
+  nav.active { display: flex; }
+  .contact-wrapper { grid-template-columns: 1fr; }
+  .cart-sidebar { width: 100%; right: -100%; }
+  .slide { height: 260px; }
+  body.theme-corporate .slide { height: 280px; }
+}
+
+
+/* ==========================================================================
+   12. CORPOFLAGUE (STYLE CHANGER)
+   ========================================================================== */
+
+/* Toggle Container Styling */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  z-index: 2000;
+}
+
+.theme-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Switches label color based on which theme is active */
+body.theme-cyberpunk .label-cyber { color: var(--accent-primary); text-shadow: 0 0 5px var(--accent-primary); }
+body.theme-cyberpunk .label-corp { color: #444; }
+body.theme-corporate .label-cyber { color: #888; }
+body.theme-corporate .label-corp { color: var(--accent-primary); }
+
+/* The actual switch geometry */
+.theme-switch {
+  display: inline-block;
+  height: 24px;
+  position: relative;
+  width: 50px;
+}
+
+.theme-switch input {
+  display: none;
+}
+
+/* Slider track */
+.slider-toggle {
+  background-color: #1a1a24;
+  border: 1px solid var(--accent-primary);
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: 0.4s;
+}
+
+/* Slider knob */
+.slider-toggle:before {
+  background-color: var(--accent-primary);
+  bottom: 3px;
+  content: "";
+  height: 16px;
+  left: 4px;
+  position: absolute;
+  transition: 0.4s;
+  width: 16px;
+}
+
+/* Round shape modifier */
+.slider-toggle.round {
+  border-radius: var(--border-radius-card, 0px);
+}
+.slider-toggle.round:before {
+  border-radius: var(--border-radius-card, 0px);
+}
+
+/* Checked / Corporate State adjustments */
+input:checked + .slider-toggle {
+  background-color: #fff;
+}
+
+input:checked + .slider-toggle:before {
+  transform: translateX(24px);
+}

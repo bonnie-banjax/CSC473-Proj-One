@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-text="$meta_title"></title>
+  <style> </style>
+  <link rel="stylesheet" href="/static/morphic-clone.css">
+  <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.2/bundles/datastar.js"></script>
+</head>
+<body data-signals="{
+        is_corporate: true,
+        menu_active: false,
+        cart_open: false,
+        current_slide: 0,
+        cart_count: 0,
+        cart_total: '$0.00',
+        meta_title: 'The Monolith Bistro',
+        nav_logo: 'The Monolith Bistro',
+        nav_hamburger_icon: '☰',
+        nav_link_home: 'Home',
+        nav_link_menu: 'Menu',
+        nav_link_about: 'About',
+        nav_link_contact: 'Contact',
+        cart_trigger_label: '🛒 Cart ',
+        hero_title: 'The Monolith Bistro',
+        hero_subtitle: 'Exquisite Dining Rendered in a Single Architecture',
+        about_title: 'Our Story',
+        about_content: 'Founded in 2026, The Monolith Bistro was born out of a desire to simplify gastronomy while maximizing depth...',
+        menu_title: 'Our Menu',
+        item_1_name: 'Truffle Burger',
+        item_1_price: '$18.00',
+        item_1_desc: 'Prime wagyu beef patty topped with white truffle aioli, aged gruyère, and wild arugula on a brioche bun.',
+        menu_action_label: 'Add to Cart',
+        item_2_name: 'Artisanal Pizza',
+        item_2_price: '$16.50',
+        item_2_desc: 'Hand-tossed sourdough crust with house-made san marzano tomato sauce, fresh buffalo mozzarella, and basil.',
+        item_3_name: 'Harvest Salmon Bowl',
+        item_3_price: '$21.00',
+        item_3_desc: 'Pan-seared Atlantic salmon over wild rice, roasted sweet potatoes, avocado, and a citrus-ginger drizzle.',
+        gallery_title: 'Gallery',
+        contact_title: 'Contact Us',
+        contact_name_label: 'Name',
+        contact_email_label: 'Email',
+        contact_message_label: 'Message',
+        contact_submit_label: 'Send Message',
+        cart_title: 'Your Order',
+        cart_empty_label: 'Your cart is empty.',
+        cart_total_label: 'Total:',
+        cart_clear_label: 'Clear Cart',
+        footer_corp_name: 'Monolith Bistro',
+        footer_tagline: 'Crafting stateful culinary experiences packed inside pristine architecture.',
+        footer_hours_title: 'Hours of Operation',
+        footer_hours_line_1: 'Monday - Thursday: 4:00 PM - 10:00 PM',
+        footer_hours_line_2: 'Friday - Sunday: 12:00 PM - 11:00 PM',
+        footer_socials_title: 'Follow Us',
+        footer_social_1: 'Facebook',
+        footer_social_2: 'Instagram',
+        footer_social_3: 'X / Twitter',
+        footer_copyright: '© 2026 The Monolith Bistro. All rights reserved.'
+      }" data-class='{ "theme-corporate": $is_corporate, "theme-cyberpunk": !$is_corporate }'>
+
+  <header>
+    <div class="container">
+      <a href="cyber-critique.html" class="logo" data-text="$nav_logo"></a>
+      <button class="hamburger" id="hamburger-btn" data-on:click="$menu_active = !$menu_active" data-text="$nav_hamburger_icon"></button>
+
+
+      <nav id="nav-menu" data-class='{ "active": $menu_active }'>
+        <a href="#home" data-on:click="$menu_active = false" data-text="$nav_link_home"></a>
+        <a href="#menu" data-on:click="$menu_active = false" data-text="$nav_link_menu"></a>
+        <a href="#about" data-on:click="$menu_active = false" data-text="$nav_link_about"></a>
+        <a href="#contact" data-on:click="$menu_active = false" data-text="$nav_link_contact"></a>
+
+        <button class="btn cart-trigger-btn" id="open-cart-btn" data-on:click="$cart_open = true">
+          <span data-text="$cart_trigger_label"></span>
+          <span class="cart-count" id="cart-indicator" data-text="$cart_count"></span>
+        </button>
+
+        <div class="theme-switch-wrapper">
+          <span class="theme-label label-cyber">CYBER</span>
+          <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" data-bind="$is_corporate" />
+            <div class="slider-toggle round"></div>
+          </label>
+          <span class="theme-label label-corp">CORP</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section id="home">
+    <div>
+      <h1 data-text="$hero_title"></h1>
+      <p data-text="$hero_subtitle"></p>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title" data-text="$about_title"></h2>
+      <div class="about-content">
+        <p data-text="$about_content"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="container">
+      <h2 class="section-title" data-text="$menu_title"></h2>
+      <div class="menu-grid">
+
+        <div class="menu-card">
+          <img class="menu-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80" alt="Truffle Burger">
+          <div class="menu-info">
+            <div class="menu-title-row">
+              <h3 data-text="$item_1_name"></h3>
+              <span class="menu-price" data-text="$item_1_price"></span>
+            </div>
+            <p class="menu-desc" data-text="$item_1_desc"></p>
+            <button class="btn add-to-cart-btn" data-on:click="@post('/api/cart/add?id=1')" data-text="$menu_action_label"></button>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <img class="menu-img" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80" alt="Artisanal Pizza">
+          <div class="menu-info">
+            <div class="menu-title-row">
+              <h3 data-text="$item_2_name"></h3>
+              <span class="menu-price" data-text="$item_2_price"></span>
+            </div>
+            <p class="menu-desc" data-text="$item_2_desc"></p>
+            <button class="btn add-to-cart-btn" data-on:click="@post('/api/cart/add?id=2')" data-text="$menu_action_label"></button>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <img class="menu-img" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80" alt="Harvest Salmon Bowl">
+          <div class="menu-info">
+            <div class="menu-title-row">
+              <h3 data-text="$item_3_name"></h3>
+              <span class="menu-price" data-text="$item_3_price"></span>
+            </div>
+            <p class="menu-desc" data-text="$item_3_desc"></p>
+            <button class="btn add-to-cart-btn" data-on:click="@post('/api/cart/add?id=3')" data-text="$menu_action_label"></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="container">
+      <h2 class="section-title" data-text="$gallery_title"></h2>
+      <div class="slider-container">
+        <div class="slider" id="image-slider" data-style='{ "transform": "translateX(-" + ($current_slide * 100) + "%)" }'>
+          <img class="slide" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Steak">
+          <img class="slide" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="Kitchen Prep">
+          <img class="slide" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80" alt="Plated Fine Dining">
+          <img class="slide" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" alt="Drinks/Bar">
+          <img class="slide" src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80" alt="Dining Room">
+          <img class="slide" src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Ribs Grid">
+        </div>
+        <button class="slider-btn prev" id="slider-prev-btn" data-on:click="$current_slide = ($current_slide - 1 + 6) % 6">❮</button>
+        <button class="slider-btn next" id="slider-next-btn" data-on:click="$current_slide = ($current_slide + 1) % 6">❯</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title" data-text="$contact_title"></h2>
+      <div class="contact-wrapper">
+        <form class="contact-form" data-on-submit="@post('/api/contact/submit')">
+          <div class="form-group">
+            <label for="name" data-text="$contact_name_label"></label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email" data-text="$contact_email_label"></label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="message" data-text="$contact_message_label"></label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn" data-text="$contact_submit_label"></button>
+        </form>
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.6175392743824!2d-73.9878531242371!3d40.74844447138905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1710000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cart-sidebar" id="cart-sidebar" data-class='{ "open": $cart_open }'>
+    <div class="cart-header">
+      <h3 data-text="$cart_title"></h3>
+      <button class="cart-close" id="close-cart-btn" data-on:click="$cart_open = false">✕</button>
+    </div>
+
+    <div class="cart-items" id="cart-items-container">
+       <p style="text-align:center; color:#888; margin-top:20px;" data-text="$cart_empty_label"></p>
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span data-text="$cart_total_label"></span>
+        <span id="cart-total-price" data-text="$cart_total"></span>
+      </div>
+      <div class="cart-actions">
+        <button class="btn btn-clear" id="clear-cart-btn" data-on:click="@post('/api/cart/clear')" data-text="$cart_clear_label"></button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3 data-text="$footer_corp_name"></h3>
+          <p data-text="$footer_tagline"></p>
+        </div>
+        <div class="footer-col">
+          <h3 data-text="$footer_hours_title"></h3>
+          <p data-text="$footer_hours_line_1"></p>
+          <p data-text="$footer_hours_line_2"></p>
+        </div>
+        <div class="footer-col">
+          <h3 data-text="$footer_socials_title"></h3>
+          <div class="social-links">
+            <a href="#" data-text="$footer_social_1"></a>
+            <a href="#" data-text="$footer_social_2"></a>
+            <a href="#" data-text="$footer_social_3"></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-text="$footer_copyright"></p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
