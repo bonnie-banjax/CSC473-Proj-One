@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>remark-3</title>
+  <style>
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<p>ANDREW MOBUS LAB REPORT</p>
+<h1 id="title">TITLE</h1>
+<p>Overnight to Daytime Child Care Program Ratio in New York City
+<!--|======[1]======[2]======[3]======|--></p>
+<h1 id="abstract">ABSTRACT</h1>
+<p>This paper seeks to assess the ratio of overnight child care service
+offerings in New York City via cross reference of publically available
+government records. Due to incomplete and disjointed information, much
+more time and effort was deployed towards attempts at data science than
+originally intende per the scope of the report, compromising efficacy
+and completeness of results. Based on data collected from OpenDataNYC
+(registered child care porviders dataset, PLUTO) and information pulled
+from the the New York State Office of Child Care Services, there are
+roughly ~780 facilities opporated through 580 different organizations
+which offer non-traditional hours, which makes this represent the
+maximum possible number of registered overnight child care providers out
+of a total of just shy of 3000.</p>
+<h1 id="introduction">INTRODUCTION</h1>
+<p>New York City is known as “the city that never sleeps”, but someone
+has to watch the children of those working the nightshift. Often, this
+falls on spouses or informal networks of support; for a city of seven
+million non-commuting residents, there must be substantial formal
+programs available in order to meet the needs of the city’s off-hours
+labor. How one might deduce which of the close to 3000 registered child
+care programs can watch one’s children, and on what basis of forward
+notice (ie, dealing with last minute shift changes) remains challenging,
+and requires non-trivial data aggregation efforts and validation.
+Fortunately, the city and state of New York publish extensive public
+data sets regarding all manner of areas of note, the relevant ones for
+this study being the PLUTO (Primary Land Use and Tax Output) dataset,
+which was used as an attempted means of validating capability opr
+categorical exclusion from overnight oepration via Certificates of
+Occupancy and Building Class, but these efforts resulted in relatively
+little to no useful insight, and then the registry operated by the New
+York State Office of Child Care Services, as well as the New York City
+dataset of registered child care programs.</p>
+<!--|======[1]======[2]======[3]======|-->
+<h1 id="materials-methods">MATERIALS &amp; METHODS</h1>
+<!-- ORD -->
+<p>Identifying which of New York City’s close to three thousand child
+care programs offer overnight services necessitated a methodocal and
+data-driven approach; official government resources constitute almost
+the entity of the materials consulted. Some data was readily accessible,
+as was the case for the current registered child care programs; the
+first step was identifying which city government department had
+jurisdiction over such programs– for NYC specifically this falls on the
+New York City Department of Health and Mental Hygiene– and searching the
+NYC Open Data repository. There is a data set covering register child
+care programs, which provided the baseline total statistic. The next
+step was identifying potential overlapping datasets which might provide
+some means of establishing whether any of the providers were categorical
+excluded from operating at night, based on building class designation or
+Certificate of Occupancy. Unfortunately, this proved to be a costly side
+quest, requiring to pull in the PLUTO (Primary Land Use Tax-Lot Output)
+dataset, and attempt to join the datasets on the Borough-Block-Lot (BBL)
+field, as, remarkably, the PLUTO dataset lacks the city’s Building
+Identificatio Number (BIN) as one of its over 100 columns. There was
+additional confusion as the “Building Class” term used in city datasets
+has two different defintions based on whether it is from the Department
+of Finance (DOF) or the Department of Buildings (DOB).</p>
+<p>While joining the initial registered child care programs dataset with
+PLUTO allow for precursory analysis of the various building types in
+which these programs operate, the granularity was insufficient to
+provide anything close to a robust or resonable guess as to how many
+might offer overnight care. Therefore, further data sources were sought
+out, this time from the New York State Office of Child Care Services,
+which keeps a registry of all child care providers in the state. The
+full dataset was acquired and then filtered on the overseeing entity,
+which as established before, is NYCHMH; the results would be
+cross-indexed with the city’s provide registry at a later step. The New
+York State OCFS has, on its web services page, a search tool, which has
+a query field for “Non-Traditional Hours”, which is defined on said web
+portal as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Traditional Hours of Operation:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Day Care Centers, Small Day Care Centers, Family Day Care, and Group Day </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  Care traditional hours are Monday through Friday from 6:00 AM to 7:00 PM.</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>School Age Child Care Programs traditional hours are Monday through Friday </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  two hours before and three hours after school, when school is in session, and</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  full days following regular opening and closing times during school breaks </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  and vacations.</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu"># Non-Traditional Hours</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Non-Traditional Hours of Operation:</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Anything outside Traditional Hours of Operation is Non-Traditional Hours.</span></code></pre></div>
+<p>This statistic is recorded on the register program’s index page, but,
+crucially, not in the dataset offered by the OCFS. I initially explored
+setting up a basic web scrapping bot in order to collect all the pages,
+as the URL schema was predictable and the identification number needed
+for such was in the dataset, but ultimately, a more manual, low-tech
+solution was taken: use the search portal’s filter on County/Borough and
+“Offers Non-Traditional Hours” toggle on each of the five boroughs,
+seperately, blindly grabbing all text off those pages, and then
+extracting the predictable Licence/Registration number from all those
+aggregated text blobs, which could then be turned into a table in the
+database I was using, and joined against the OCFS dataset previously
+acquired. This could then further be joined based on program name to the
+original NYC dataset of registered child care programs.</p>
+<p>While further data analysis might yield more accurate figures, due to
+time constraints and the parameters of this project not necessarily
+being one concerned with data science, the filtering has to be cut short
+admidst two seperate botched attempts to perform the final validation
+join; additionally, as might be noted from the cited definition of
+“Non-Traditional Hours”, these would not necessarily all be programs
+which offer overnight care, but rather, represent the maximum possible
+programs which could provide such services; there are some further
+options available for narrowing down the possible maximum pool, suc has
+the difference between group care and school-based care, as well as
+revisiting the building class and similar auxiliary data metrics given
+the more focused candidate pool, the results stand where they are at a
+maximum of roughly ~780 facilities opporated through 580 different
+organizations, ie, some programs have more than one site where they
+operate. <!-- END --></p>
+<!--|======[1]======[2]======[3]======[>X<]======|-->
+<h1 id="results">RESULTS</h1>
+<p>Roughly ~780 facilities opporate through 580 different organizations
+across the five boroughs which are identified as offering
+non-traditional hours; as already stated, this represents the maximum
+number of possible overnight programs, but it does not guarantee that
+such full night hours are provided. Ultimately, the analysis was
+inconclusive and requires substantially more work to validate and cross
+reference the findings, as well as identify further means of
+interrogating available data.</p>
+<h1 id="discussion">DISCUSSION</h1>
+<p>My initial expectation that there were relatively few overnight
+offerings, as had previously been suggested by a prior research project,
+appears to have been mistaken, and is a strong reminder to make sure one
+fact-checks suprisingly claims, even if they come from one’s teamamtes.
+While the city’s information services are, all considered, quite good,
+the reality is that the disjointed yet overlapping data profiles ought
+to be better standardized across similar offices rather than eveyrone
+making up their own spreadsheet schema; while the data is usually
+provided as some form of CSV or spreadsheet, it is unknown whether these
+are the actual storage formats as systems used by the primary databases
+or if they are mearly provided in this format for convience.</p>
+<h1 id="conclusion">CONCLUSION</h1>
+<p>Despite its moniker, New York City is far from as active at night as
+it could be; the initial motivation for this studfy was as part of an
+ongoing assessment of the efficacy and blocking problems on the city’s
+Off Hours Delivery program, which is successful but deals primarily in
+providing captial loans for the purchase of automation equipment, rather
+than assisting in source labor for unfilled roles which might command
+anywhere between a 5%-20% premium of the daytime baseline.</p>
+<!--|======[1]======[2]======[3]======[>X<]======[5]======[6]======[7]======|-->
+</body>
+</html>

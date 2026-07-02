@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Theme Cyber-King Playing Card Layout</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        /* --- Core Theme Variables --- */
+        :root {
+/*             --bg-color: #121214; */
+            --bg-color: #030303;
+            --surface-color: #1a1a1e;
+            --text-color: #f6e05e; /* Bold Yellow */
+            --primary-color: #00f0ff; /* Cyan */
+            --secondary-color: #ff007f; /* Magenta */
+            --text-muted: #a0aec0;
+        }
+
+        /* --- Global Resets & Layout --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        /* --- Modern CSS Slider Toggles Panel --- */
+        .controls-panel {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 24px;
+            background: var(--surface-color);
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toggle-label {
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            user-select: none;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333;
+            transition: .3s;
+            border-radius: 22px;
+            border: 1px solid var(--text-muted);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--text-muted);
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: rgba(0, 240, 255, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+            background-color: var(--primary-color);
+        }
+
+        /* --- The Playing Card Framework --- */
+        .playing-card {
+            background-color: var(--surface-color);
+            border: 4px solid var(--primary-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 1400px;
+            height: 85vh;
+            display: grid;
+            grid-template-columns: 140px 1fr 140px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
+            overflow: hidden;
+        }
+
+        /* Toggle Action: Expand Card Height */
+        .playing-card.expand-mode {
+            height: auto;
+            overflow: visible;
+        }
+
+        /* --- Symmetrical Rails (Left & Right Column Spaces) --- */
+        .card-rail {
+            display: grid;
+            /* Give the label area (row 2) a fixed 1fr or explicit height */
+            grid-template-rows: 1fr 500px 1fr 5ch;
+            align-items: center;
+            justify-items: center;
+            padding: 1.5rem 0;
+            height: 100%;
+        }
+
+        .rail-left {
+            grid-column: 1;
+        }
+
+        .rail-right {
+            grid-column: 3;
+        }
+
+        /* Flips the entire left column upside down cleanly */
+        .rail-inverted {
+            transform: rotate(180deg);
+        }
+
+        /* Subsection 1: Vertically Stacked Emblem Suits */
+        .emblem-suit {
+            display: flex;
+            flex-direction: column;
+            line-height: 0.95;
+            font-size: 4.5rem;
+            color: var(--secondary-color);
+            font-weight: 900;
+            text-align: center;
+            user-select: none;
+        }
+
+        /* Subsection 2: Rotated Context Labels */
+        .rotated-label-area {
+            /* Define a rigid box that fits perfectly inside your 140px sidebar */
+            width: 100%;
+            height: 250px;
+
+            /* Use flex centering to stop sideways drift */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            /* Native vertical layout replaces transform rotation */
+            writing-mode: vertical-lr;
+            transform: rotate(180deg); /* Flips orientation so it reads bottom-to-top */
+
+            /* Typography formatting */
+            font-size: 2.1rem; /* Safely scale this up now; it won't drift */
+            color: #DA0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            text-align: center;
+            user-select: none;
+        }
+
+        /* Subsection 3: Centered Square Links Grid */
+        .links-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            text-decoration: none;
+            width: 50px;       /* Perfectly Square Measurements */
+            height: 50px;      /* Perfectly Square Measurements */
+            border-radius: 6px;
+            border: 1px solid var(--secondary-color);
+            font-size: 1.1rem;
+            font-weight: 800;
+            transition: all 0.2s ease-in-out;
+            background: rgba(26, 26, 30, 0.8);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--bg-color);
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+        }
+
+        /* --- Workspace Core Area --- */
+        .main-content {
+            background-color: #121212;
+            grid-column: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2.5rem 2rem;
+            overflow-y: auto;
+            border-left: 2px solid rgba(160, 174, 192, 0.1);
+            border-right: 2px solid rgba(160, 174, 192, 0.1);
+        }
+
+        .playing-card.expand-mode .main-content {
+            overflow-y: visible;
+        }
+
+        .markdown-wrapper {
+            width: 100%;
+            max-width: 80ch;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Markdown Source Block Layout Details */
+        .input-panel {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            transition: all 0.3s ease-in-out;
+            max-height: 300px;
+            opacity: 1;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .input-panel.hidden {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+            pointer-events: none;
+        }
+
+        .input-label {
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ==========================================================================
+           MARKDOWN RENDER STYLESHEET TARGETS
+           ========================================================================== */
+        .markdown-viewer {
+            width: 100%;
+        }
+
+        .markdown-viewer h1,
+        .markdown-viewer h2,
+        .markdown-viewer h3 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .markdown-viewer h1 { border-bottom: 2px solid var(--secondary-color); padding-bottom: 0.5rem; }
+        .markdown-viewer p { color: var(--text-color); line-height: 1.6; margin-bottom: 1.2rem; }
+        .markdown-viewer a { color: var(--secondary-color); text-decoration: underline; }
+        .markdown-viewer a:hover { color: var(--primary-color); }
+
+        .markdown-viewer code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: var(--primary-color);
+            font-weight: 400;
+        }
+
+        .markdown-viewer pre {
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            border-left: 4px solid var(--secondary-color);
+            margin-bottom: 1.2rem;
+        }
+
+        .markdown-viewer pre code { padding: 0; background-color: transparent; color: var(--text-muted); }
+
+
+        #content-frame {
+            width: 100%;
+            height: 100%;
+            border: none; /* Removes the ugly default browser border */
+/*             background: transparent; */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="playing-card" id="card-frame">
+
+        <aside class="card-rail rail-left ">
+            <div class="emblem-suit"><span>加</span><span>油</span></div>
+            <div class="rotated-label-area" id="label-left">INDEX DATA 1</div>
+            <nav class="links-stack" aria-label="Inverted Actions">
+                <a href="#" class="nav-link" data-source="remark-5.html">05</a>
+                <a href="#" class="nav-link" data-source="remark-4.html">04</a>
+                <a href="#" class="nav-link" data-source="remark-3.html">03</a>
+                <a href="#" class="nav-link" data-source="remark-2.html">02</a>
+                <a href="#" class="nav-link" data-source="remark-1.html">01</a>
+            </nav>
+        </aside>
+
+
+          <main class="main-content">
+              <iframe id="content-frame" src="remark-1.html" sandbox="allow-scripts allow-same-origin" title="Static Content Workspace"></iframe>
+          </main>
+
+
+        <aside class="card-rail rail-right rail-inverted">
+            <div class="emblem-suit"><span>加</span><span>油</span></div>
+            <div class="rotated-label-area" id="label-right">INDEX DATA 1</div>
+            <nav class="links-stack" aria-label="Primary Actions">
+                <a href="#" class="nav-link" data-source="remark-5.html">05</a>
+                <a href="#" class="nav-link" data-source="remark-4.html">04</a>
+                <a href="#" class="nav-link" data-source="remark-3.html">03</a>
+                <a href="#" class="nav-link" data-source="remark-2.html">02</a>
+                <a href="#" class="nav-link" data-source="remark-1.html">01</a>
+            </nav>
+        </aside>
+
+    </div>
+
+<script>
+    const iframe = document.getElementById('content-frame');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Prevent the browser from trying to jump or reload the page
+            e.preventDefault();
+
+            // Get the target filename from the clicked button
+            const targetFile = link.getAttribute('data-source');
+
+            if (targetFile) {
+                // Change the inner iframe content source instantly
+                iframe.src = targetFile;
+
+                // Synchronize active classes across both mirrored sidebars
+                navLinks.forEach(item => {
+                    if (item.getAttribute('data-source') === targetFile) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
